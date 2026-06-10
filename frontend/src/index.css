@@ -24,6 +24,9 @@
   --success: #47ff9c;
   --success-dim: rgba(71, 255, 156, 0.1);
 
+  --header-bg: rgba(10, 10, 10, 0.92);
+  --grid-line: rgba(232, 255, 71, 0.015);
+
   --font-display: 'Syne', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
@@ -33,6 +36,31 @@
 
   --transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f7f5f0;
+  --bg-secondary: #edeae3;
+  --bg-card: #e4e0d8;
+  --bg-elevated: #ffffff;
+  --border: #d0ccc4;
+  --border-active: #a09890;
+
+  --text-primary: #1a1818;
+  --text-secondary: #6b6560;
+  --text-muted: #b0aa9f;
+
+  --accent: #0e6b3a;
+  --accent-dim: rgba(14, 107, 58, 0.10);
+  --accent-dim2: rgba(14, 107, 58, 0.05);
+
+  --danger: #cc2222;
+  --danger-dim: rgba(204, 34, 34, 0.10);
+  --success: #0e8044;
+  --success-dim: rgba(14, 128, 68, 0.10);
+
+  --header-bg: rgba(247, 245, 240, 0.92);
+  --grid-line: rgba(14, 107, 58, 0.04);
 }
 
 *, *::before, *::after {
@@ -55,14 +83,19 @@ body {
   line-height: 1.6;
 }
 
+/* Smooth theme transition */
+*, *::before, *::after {
+  transition: background-color var(--transition-slow), border-color var(--transition-slow), color var(--transition-slow);
+}
+
 /* Subtle grid background */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(232, 255, 71, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(232, 255, 71, 0.015) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
   z-index: 0;

@@ -11,6 +11,16 @@ const INPUT_MODE_FILE = 'file'
 const INPUT_MODE_TEXT = 'text'
 
 export default function App() {
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('theme')
+    return saved ? saved === 'dark' : true
+  })
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light')
+    localStorage.setItem('theme', darkMode ? 'dark' : 'light')
+  }, [darkMode])
+
   // Input mode
   const [inputMode, setInputMode] = useState(INPUT_MODE_FILE)
   const [file, setFile] = useState(null)
@@ -90,7 +100,7 @@ export default function App() {
         justifyContent: 'space-between',
         position: 'sticky',
         top: 0,
-        background: 'rgba(10,10,10,0.92)',
+        background: 'var(--header-bg)',
         backdropFilter: 'blur(12px)',
         zIndex: 100,
       }}>
@@ -117,6 +127,35 @@ export default function App() {
           </span>
         </div>
 
+        {/* Right side: theme toggle + status */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+
+        {/* Theme toggle */}
+        <button
+          onClick={() => setDarkMode(d => !d)}
+          title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '5px 12px',
+            border: '1px solid var(--border)',
+            borderRadius: '20px',
+            background: 'var(--bg-card)',
+            color: 'var(--text-secondary)',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '12px',
+            cursor: 'pointer',
+            transition: 'all var(--transition)',
+            userSelect: 'none',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-active)'; e.currentTarget.style.color = 'var(--text-primary)' }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
+        >
+          <span style={{ fontSize: '13px' }}>{darkMode ? '☀' : '◑'}</span>
+          {darkMode ? 'Light' : 'Dark'}
+        </button>
+
         {/* Status pill */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <div style={{
@@ -137,6 +176,8 @@ export default function App() {
              ollamaStatus === 'connected' ? 'ready' : 'ollama offline'}
           </span>
         </div>
+
+        </div>{/* end right side */}
       </header>
 
       {/* ── Main Layout ────────────────────────────────── */}
